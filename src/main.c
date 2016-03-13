@@ -2,8 +2,6 @@
 #include "catch_errors.h"
 #include "minishell.h"
 
-extern char **environ;
-
 void	aff_prompt(char **env)
 {
 	char **wd;
@@ -21,6 +19,7 @@ void	aff_prompt(char **env)
 		wd = parse_var_env(env[pwd_index]);
 	if (wd)
 	{
+		ft_trace("wd", wd[0]);
 		if (home_index)
 			homedir = parse_var_env(env[home_index]);
 		if (homedir)
@@ -40,8 +39,10 @@ void	aff_prompt(char **env)
 		ft_putstr("$> ");
 }
 
-int main(void)
+int main(int argc, char **argv, char **environ)
 {
+	(void)argc;
+	(void)argv;
 	int		gnl_ret;
 	char	*line;
 

@@ -5,10 +5,9 @@
 
 int		builtin_cd(char **params, char **environ)
 {
+	(void)environ;
 	if (params[1])
 		chdir(params[1]);
-	environ[get_var_index(environ, "PWD=")][10] = 'A';
-	ft_trace("env, ", environ[get_var_index(environ, "PWD=")]);
 	return (1);
 }
 
