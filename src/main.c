@@ -2,6 +2,8 @@
 #include "catch_errors.h"
 #include "minishell.h"
 
+extern char **environ;
+
 void	aff_prompt(char **env)
 {
 	char **wd;
@@ -19,7 +21,6 @@ void	aff_prompt(char **env)
 		wd = parse_var_env(env[pwd_index]);
 	if (wd)
 	{
-		ft_trace("wd", wd[0]);
 		if (home_index)
 			homedir = parse_var_env(env[home_index]);
 		if (homedir)
@@ -56,8 +57,11 @@ int main(int argc, char **argv, char **environ)
 		if (gnl_ret < 0)
 			catch_error(1, "gnl");
 		else
+		{
 			if (line && ft_strcmp(line, ""))
 				handle_command(line, environ);
+		}
 		gnl_ret = 0;
 	}
+	return (0);
 }

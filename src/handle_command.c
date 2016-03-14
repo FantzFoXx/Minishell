@@ -29,9 +29,21 @@ int	get_var_index(char **var, char *chr)
 
 	i = -1;
 	while (var[++i])
-		if (ft_strstr(var[i], chr))
+		if (ft_strnstr(var[i], chr, ft_strlen(chr)))
 			return (i);
 	return (-1);
+}
+
+char	*ft_getenv(char **var, char *chr)
+{
+	int index;
+	char *ret;
+
+	index = get_var_index(var, chr);
+	ret = NULL;
+	if (index != -1)
+		ret = var[index];
+	return (ret);
 }
 
 static char	*ft_join_paths(char *path, char *filename)
@@ -45,7 +57,7 @@ static char	*ft_join_paths(char *path, char *filename)
 	return (ret);
 }
 
-static int	exec_command(char *cmd, char **av)
+static int	exec_command(char *cmd, char **av, char **env)
 {
 
 	pid_t child;
@@ -53,18 +65,20 @@ static int	exec_command(char *cmd, char **av)
 	
 	child = fork();
 	status = 0;
+	if (child > 0)
+	{
+		waitpid(child, &status, 0);
+	}
 	if (child == 0)
 	{
-		execve(cmd, &av[0], NULL);
-		exit(0);
+		execve(cmd, &av[0], env);
 	}
-	if (child > 0)
-		wait(&status);
+	
 
 	return (1);
 }
 
-static int	initiate_command(char **bin_paths, char **command)
+static int	initiate_command(char **bin_paths, char **command, char **env)
 {
 	struct stat	useless;
 	char		*complete_cmd;
@@ -76,12 +90,12 @@ static int	initiate_command(char **bin_paths, char **command)
 		{
 			complete_cmd = ft_join_paths(bin_paths[i], command[0]);
 			if (stat(complete_cmd, &useless) == 0)
-				return (exec_command(complete_cmd, command));
+				return (exec_command(complete_cmd, command, env));
 			i++;
 			free(complete_cmd);
 		}
 	else
-		exec_command(command[0], &command[0]);
+		exec_command(command[0], &command[0], env);
 	return (-1);
 }
 
@@ -105,12 +119,12 @@ int			handle_command(char *command, char **environ)
 			if (var_index != -1)
 			{
 				bin_paths = parse_var_env(environ[var_index]);
-				if (initiate_command(bin_paths, spl_com) == -1)
+				if (initiate_command(bin_paths, spl_com, environ) == -1)
 					catch_error(1, "No command");
 			}
 		}
 		else
-			initiate_command(NULL, spl_com);
+			initiate_command(NULL, spl_com, environ);
 	}
 
 	return (0);
