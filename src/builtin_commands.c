@@ -45,8 +45,6 @@ int		builtin_env(char *params, char **environ)
 	return (0);
 }
 
-int	
-
 int		builtin_cd(char **params, char **environ)
 {
 	char	*tmp;
