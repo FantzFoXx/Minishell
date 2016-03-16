@@ -5,6 +5,7 @@
 #include "catch_errors.h"
 #include <unistd.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 #include <stdio.h>
 
@@ -57,24 +58,29 @@ static char	*ft_join_paths(char *path, char *filename)
 	return (ret);
 }
 
+
+
+void		foo2(int num)
+{
+	ft_putnbr(num);
+	ft_trace(NULL, "Segfault");
+}
+
 static int	exec_command(char *cmd, char **av, char **env)
 {
-
+	signal(SIGSEGV, foo2);
 	pid_t child;
 	int status;
 	
 	child = fork();
 	status = 0;
 	if (child > 0)
-	{
 		waitpid(child, &status, 0);
-	}
 	if (child == 0)
 	{
 		execve(cmd, &av[0], env);
+		ft_trace(NULL, "pass");
 	}
-	
-
 	return (1);
 }
 

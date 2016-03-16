@@ -2,7 +2,11 @@
 #include "catch_errors.h"
 #include "minishell.h"
 
-extern char **environ;
+void		foo(int num)
+{
+	(void)num;
+	ft_putstr("\n");
+}
 
 void	aff_prompt(char **env)
 {
@@ -47,6 +51,7 @@ int main(int argc, char **argv, char **environ)
 	int		gnl_ret;
 	char	*line;
 
+	signal(SIGINT, foo);
 	gnl_ret = 0;
 	line = NULL;
 	while (1)
