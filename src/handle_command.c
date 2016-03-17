@@ -71,10 +71,14 @@ static int	exec_command(char *cmd, char **av, char **env)
 	{
 		waitpid(child, &status, 0);
 		if (WTERMSIG(status))
-			handle_fork_signal(child, WTERMSIG(status), av);
+			handle_fork_signal(WTERMSIG(status));
 	}
 	if (child == 0)
+	{
 		execve(cmd, &av[0], env);
+		ft_trace("out execve", "pass");
+		exit(1);
+	}
 	return (1);
 }
 
@@ -108,20 +112,20 @@ int			handle_command(char **command, char ***environ)
 	var_index = 0;
 	bin_paths = NULL;
 	//ft_trace("command", command[0]);
-	if (!builtins_call(command, environ))
+	if (stat(command[0], &file_prop) == -1 )
 	{
-		if (stat(command[0], &file_prop) == -1)
+		if (!builtins_call(command, environ))
 		{
 			var_index = get_var_index(*environ, "PATH=");
 			if (var_index != -1)
 			{
 				bin_paths = parse_var_env((*environ)[var_index]);
 				if (initiate_command(bin_paths, command, *environ) == -1)
-					catch_error(1, "No command");
+					catch_error(2, command[0]);
 			}
 		}
-		else
-			initiate_command(NULL, command, *environ);
 	}
+	else
+		initiate_command(NULL, command, *environ);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:27:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/17 11:55:11 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/17 17:33:54 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,24 @@ void	init_sign(char **environ)
 	signal(SIGINT, foo);
 }
 
-static void		catch_segv(pid_t pid, char **cmd)
+static void		catch_segv(int signum)
 {
-	ft_putnbr(pid);
-	ft_putstr(" segmentation fault  ");
-	ft_putnbr(status);
+	ft_putstr("Segmentation fault: ");
+	ft_putnbr(signum);
 	ft_putchar('\n');
 }
 
-static void		catch_abrt(pid_t pid, char **cmd)
+static void		catch_abrt(int signum)
 {
-	ft_putnbr(pid);
-	ft_putstr(" abort : ");
-	ft_putnbr(status);
+	ft_putstr("Abort trap: ");
+	ft_putnbr(signum);
 	ft_putchar('\n');
 }
 
-void	handle_fork_signal(pid_t pid, int signum, char **cmd)
+void	handle_fork_signal(int signum)
 {
 	if (signum == SIGSEGV)
-		catch_segv(pid, cmd);
+		catch_segv(signum);
 	else if (signum == SIGABRT)
-		catch_abrt(pid, cmd);
-
+		catch_abrt(signum);
 }
