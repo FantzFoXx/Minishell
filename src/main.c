@@ -1,11 +1,25 @@
 #include "libft.h"
+#include "handle_signal.h"
 #include "catch_errors.h"
 #include "minishell.h"
 
-void		foo(int num)
+char	**ft_strdup_tab(char **tab)
 {
-	(void)num;
-	ft_putstr("\n");
+	char	**new;
+	int		size_tab;
+	int		i;
+
+	size_tab = 0;
+	if (tab)
+		while (tab[size_tab] != 0)
+			size_tab++;
+	new = (char **)malloc(sizeof(char *) * (size_tab + 1));
+	new[size_tab] = NULL;
+	i = -1;
+	if (tab)
+		while (++i < size_tab)
+			new[i] = ft_strdup(tab[i]);
+	return (new);
 }
 
 void	aff_prompt(char **env)
@@ -50,10 +64,13 @@ int main(int argc, char **argv, char **environ)
 	(void)argv;
 	int		gnl_ret;
 	char	*line;
+	char	**spl_line;
+	char	**env_cp;
 
-	signal(SIGINT, foo);
+	env_cp = ft_strdup_tab(environ);
 	gnl_ret = 0;
 	line = NULL;
+	init_sign(environ);
 	while (1)
 	{
 		aff_prompt(environ);
@@ -63,8 +80,11 @@ int main(int argc, char **argv, char **environ)
 			catch_error(1, "gnl");
 		else
 		{
+			line = ft_strtrim_w(line);
+			spl_line = ft_strsplit(line, ' ');
 			if (line && ft_strcmp(line, ""))
-				handle_command(line, environ);
+				handle_command(spl_line, &env_cp);
+			free(line);
 		}
 		gnl_ret = 0;
 	}

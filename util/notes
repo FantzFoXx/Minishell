@@ -2,5 +2,4 @@
 	DONC le prompt s'affiche grace a une variable temporaire
 
 - gerer les signaux
-- trimer les commanndes passees en params
 - reafficher le shell apres un SIGINT
