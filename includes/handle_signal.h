@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:28:27 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/16 13:32:45 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/17 11:20:30 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 
 void	init_sign(char **environ);
 void	foo(int num);
+void	handle_fork_signal(pid_t pid, int signum, char **cmd);
 
 #endif

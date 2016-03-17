@@ -3,3 +3,9 @@
 
 - gerer les signaux
 - reafficher le shell apres un SIGINT
+
+
+
+
+Pour les shells suivants
+- si plusieurs programmes sont passes en parametres, le shell doit savoir duquel il s'agit pour afficher les signaux

@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:36:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/17 09:41:26 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/17 10:53:47 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int		ft_setenv(char *name, const char *value, int overwrite, char ***env)
 			while (env_ptr[index])
 				index++;
 			ft_realloc_tab(env, 1);
-			new_var = ft_strnew(ft_strlen(name) + ft_strlen(value) + 1); 
+			new_var = ft_strnew(ft_strlen(name) + ft_strlen(value) + 1);
 			ft_strcat(new_var, name);
 			ft_strcat(new_var, "=");
 			ft_strcat(new_var, value);
