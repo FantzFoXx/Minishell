@@ -35,11 +35,11 @@ void	aff_prompt(char **env)
 	wd = NULL;
 	tmp = NULL;
 	homedir = NULL;
-	if (pwd_index)
+	if (pwd_index >= 0)
 		wd = parse_var_env(env[pwd_index]);
 	if (wd)
 	{
-		if (home_index)
+		if (home_index >= 0)
 			homedir = parse_var_env(env[home_index]);
 		if (homedir)
 			if (ft_strstr(wd[0], homedir[0]))
@@ -70,10 +70,10 @@ int main(int argc, char **argv, char **environ)
 	env_cp = ft_strdup_tab(environ);
 	gnl_ret = 0;
 	line = NULL;
-	init_sign(environ);
+	init_sign(env_cp);
 	while (1)
 	{
-		aff_prompt(environ);
+		aff_prompt(env_cp);
 		while (gnl_ret == 0)
 			gnl_ret = get_next_line(1, &line);
 		if (gnl_ret < 0)

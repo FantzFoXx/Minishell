@@ -52,5 +52,7 @@ int		builtins_call(char **command, char ***environ)
 		return (builtin_env(NULL, *environ));
 	else if (ft_strcmp(command[0], "setenv") == 0)
 		return (builtin_setenv(command, 0, environ));
+	else if (ft_strcmp(command[0], "unsetenv") == 0)
+		return (builtin_unsetenv(command, environ));
 	return (0);
 }

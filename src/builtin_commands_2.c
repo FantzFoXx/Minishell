@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:36:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/16 16:45:02 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/17 09:41:26 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ int		chk_setenv(char **params)
 		return (0);
 }
 
+int		chk_unsetenv(char **params)
+{
+	int i;
+
+	i = 0;
+	while (params[i])
+		i++;
+	if (i == 1)
+		return (1);
+	else
+		return (0);
+}
+
 int		builtin_setenv(char **command, int overwrite, char ***env)
 {
 	(void)overwrite;
@@ -43,6 +56,43 @@ int		builtin_setenv(char **command, int overwrite, char ***env)
 	}
 	else
 		catch_error(1, "setenv");
+	return (1);
+}
+
+int		builtin_unsetenv(char **command, char ***env)
+{
+	int		nb_params;
+
+	if ((nb_params = chk_setenv(command)) && nb_params)
+	{
+		if (nb_params == 1)
+			return (ft_unsetenv(command[1], env));
+	}
+	else
+		catch_error(1, "unsetenv");
+	return (1);
+}
+
+int		ft_unsetenv(char *name, char ***env)
+{
+	int		i;
+
+	i = 0;
+	while ((*env)[i])
+	{
+		if (ft_strnstr((*env)[i], name, ft_strlen(name)))
+		{
+			free((*env)[i]);
+			while ((*env)[i + 1])
+			{
+				(*env)[i] = (*env)[i + 1];
+				i++;
+			}
+			(*env)[i] = 0;
+			i = -1;
+		}
+		i++;
+	}
 	return (1);
 }
 
@@ -77,23 +127,15 @@ int		ft_setenv(char *name, const char *value, int overwrite, char ***env)
 		{
 			index = 0;
 			while (env_ptr[index])
-			{
 				index++;
-			}
 			ft_realloc_tab(env, 1);
 			new_var = ft_strnew(ft_strlen(name) + ft_strlen(value) + 1); 
 			ft_strcat(new_var, name);
 			ft_strcat(new_var, "=");
 			ft_strcat(new_var, value);
-			*env[index - 2] = new_var;
+			(*env)[index] = new_var;
 			index = 0;
-			/*while (*env[index])
-			{
-				ft_trace(NULL, *env[index]);
-				index++;
-			}*/
 		}
 	}
-
 	return (1);
 }

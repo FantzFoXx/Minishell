@@ -58,8 +58,6 @@ static char	*ft_join_paths(char *path, char *filename)
 	return (ret);
 }
 
-
-
 void		foo2(int num)
 {
 	ft_putnbr(num);
@@ -68,7 +66,7 @@ void		foo2(int num)
 
 static int	exec_command(char *cmd, char **av, char **env)
 {
-	signal(SIGSEGV, foo2);
+	//signal(SIGSEGV, foo2);
 	pid_t child;
 	int status;
 	
@@ -77,10 +75,7 @@ static int	exec_command(char *cmd, char **av, char **env)
 	if (child > 0)
 		waitpid(child, &status, 0);
 	if (child == 0)
-	{
 		execve(cmd, &av[0], env);
-		ft_trace(NULL, "pass");
-	}
 	return (1);
 }
 
@@ -121,7 +116,7 @@ int			handle_command(char **command, char ***environ)
 			var_index = get_var_index(*environ, "PATH=");
 			if (var_index != -1)
 			{
-				bin_paths = parse_var_env(*environ[var_index]);
+				bin_paths = parse_var_env((*environ)[var_index]);
 				if (initiate_command(bin_paths, command, *environ) == -1)
 					catch_error(1, "No command");
 			}
@@ -129,6 +124,5 @@ int			handle_command(char **command, char ***environ)
 		else
 			initiate_command(NULL, command, *environ);
 	}
-
 	return (0);
 }
