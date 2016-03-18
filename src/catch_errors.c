@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:57:21 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/17 18:31:13 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/18 18:00:33 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,16 @@ int				catch_error(int err_code, char *err_msg)
 	ft_putstr(err_msg);
 	dir_chk = NULL;
 	if (err_code == 1)
+		ft_putendl(": command not found");
+	else if (err_code == 2)
+		ft_putendl(": is a directory");
+	else if (err_code == 3)
+		ft_putendl(": Permission denied");
+	else if (err_code == 4)
+		ft_putendl(": No such file or directory");
+	/*
+	if (err_code == 5)
 	{
-	}
-	if (err_code == 2)
-	{
-		if (ft_strchr(err_msg, '/'))
-			ft_putendl(": No such file or directory");
-		else if (opendir(err_msg))
-			ft_putendl(": is a directory");
-		else
-			ft_putendl(": command not found");
-		if (dir_chk)
-			closedir(dir_chk);
-	}
+	}*/
 	return (err_code);
 }

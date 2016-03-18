@@ -67,7 +67,7 @@ void	rpl_homedir_tild(char **str, char **env)
 	char		*tmp;
 
 	home_ind = get_var_index(env, "HOME=");
-	if (home_ind >= 0 || path_env == NULL)
+	if (home_ind >= 0 && path_env == NULL)
 		path_env = parse_var_env(env[home_ind]);
 	if (path_env && ft_strnstr(*str, *path_env, ft_strlen(*path_env)))
 	{
@@ -82,10 +82,12 @@ void	rpl_homedir_tild(char **str, char **env)
 
 void	aff_prompt(char **env)
 {
+	(void)env;
 	static char *prompt = NULL;
 	char		*new_pwd;
 
-	new_pwd = getcwd(prompt, MAXPATHLEN);
+	new_pwd = NULL;
+	new_pwd = getcwd(new_pwd, MAXPATHLEN);
 	if (prompt && ft_strcmp(prompt, new_pwd))
 		free(prompt);
 	prompt = new_pwd;

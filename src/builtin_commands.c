@@ -24,6 +24,8 @@ int		builtin_cd(char **params, char ***environ)
 	char new_dir[1024];
 
 	tmp = ft_getenv(*environ, "HOME=");
+	if (tmp)
+		tmp = ft_strdup(tmp);
 	if (((params[1] && ft_strcmp(params[1], "~") == 0) || !params[1]) && tmp)
 	{
 		homedir = parse_var_env(tmp);
