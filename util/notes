@@ -9,3 +9,21 @@
 
 Pour les shells suivants
 - si plusieurs programmes sont passes en parametres, le shell doit savoir duquel il s'agit pour afficher les signaux
+- modifier unsetenv pour qu'il prenne les variables sans le =
+
+
+ALGO PRINCIPAL MINISHELL
+
+loop principal :
+- recuperation commande -> trim espaces et tab inutiles -> split -> appel du handle_command
+
+handle_command
+{
+	si -> non commande dans var env path
+	{
+		si -> non dir && non fichier
+		{
+			si -> non commande builtin
+		}
+	}
+}

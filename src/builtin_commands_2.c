@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:36:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/17 18:28:02 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/18 11:38:22 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int		chk_unsetenv(char **params)
 {
 	int i;
 
-	i = 0;
+	i = 1;
 	while (params[i])
 		i++;
-	if (i == 1)
-		return (1);
+	if (i >= 2)
+		return (i - 1);
 	else
 		return (0);
 }
@@ -63,10 +63,14 @@ int		builtin_unsetenv(char **command, char ***env)
 {
 	int		nb_params;
 
-	if ((nb_params = chk_setenv(command)) && nb_params)
+	if ((nb_params = chk_unsetenv(command)) && nb_params)
 	{
-		if (nb_params == 1)
-			return (ft_unsetenv(command[1], env));
+		while (nb_params > 0)
+		{
+			ft_unsetenv(command[nb_params], env);
+			nb_params--;
+		}
+		return (1);
 	}
 	else
 		catch_error(1, "unsetenv");

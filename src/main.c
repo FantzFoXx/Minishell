@@ -2,6 +2,7 @@
 #include "handle_signal.h"
 #include "catch_errors.h"
 #include "minishell.h"
+#include <sys/param.h>
 
 char	**ft_strdup_tab(char **tab)
 {
@@ -22,40 +23,75 @@ char	**ft_strdup_tab(char **tab)
 	return (new);
 }
 
+/*void	aff_prompt(char **env)
+  {
+  char **wd;
+  char **homedir;
+  char *tmp;
+  int pwd_index;
+  int home_index;
+
+  pwd_index = get_var_index(env, "PWD=");
+  home_index = get_var_index(env, "HOME=");
+  wd = NULL;
+  tmp = NULL;
+  homedir = NULL;
+  if (pwd_index >= 0)
+  wd = parse_var_env(env[pwd_index]);
+  if (wd)
+  {
+  if (home_index >= 0)
+  homedir = parse_var_env(env[home_index]);
+  if (homedir)
+  if (ft_strstr(wd[0], homedir[0]))
+  {
+  ft_putstr("~");
+  tmp = ft_strsub(wd[0], ft_strlen(homedir[0]), ft_strlen(wd[0]) - ft_strlen(homedir[0]));
+  ft_putstr(&wd[0][ft_strlen(homedir[0])]);
+  }
+  else
+  ft_putstr(wd[0]);
+  else
+  ft_putstr(wd[0]);
+  ft_putstr(" $ ");
+  }
+  else
+  ft_putstr("$> ");
+  }
+  */
+
+void	rpl_homedir_tild(char **str, char **env)
+{
+	int			home_ind;
+	static char	**path_env = NULL;
+	char		*tmp;
+
+	home_ind = get_var_index(env, "HOME=");
+	if (home_ind >= 0 || path_env == NULL)
+		path_env = parse_var_env(env[home_ind]);
+	if (path_env && ft_strnstr(*str, *path_env, ft_strlen(*path_env)))
+	{
+		tmp = ft_strsub(*str, ft_strlen(*path_env), ft_strlen(*str) - ft_strlen(*path_env));
+		free(*str);
+		*str = ft_strnew(ft_strlen(tmp) + 1);
+		ft_strcat(*str, "~");
+		ft_strcat(*str, tmp);
+		free(tmp);
+	}
+}
+
 void	aff_prompt(char **env)
 {
-	char **wd;
-	char **homedir;
-	char *tmp;
-	int pwd_index;
-	int home_index;
+	static char *prompt = NULL;
+	char		*new_pwd;
 
-	pwd_index = get_var_index(env, "PWD=");
-	home_index = get_var_index(env, "HOME=");
-	wd = NULL;
-	tmp = NULL;
-	homedir = NULL;
-	if (pwd_index >= 0)
-		wd = parse_var_env(env[pwd_index]);
-	if (wd)
-	{
-		if (home_index >= 0)
-			homedir = parse_var_env(env[home_index]);
-		if (homedir)
-			if (ft_strstr(wd[0], homedir[0]))
-			{
-				ft_putstr("~");
-				tmp = ft_strsub(wd[0], ft_strlen(homedir[0]), ft_strlen(wd[0]) - ft_strlen(homedir[0]));
-				ft_putstr(&wd[0][ft_strlen(homedir[0])]);
-			}
-			else
-				ft_putstr(wd[0]);
-		else
-			ft_putstr(wd[0]);
-		ft_putstr(" $ ");
-	}
-	else
-		ft_putstr("$> ");
+	new_pwd = getcwd(prompt, MAXPATHLEN);
+	if (prompt && ft_strcmp(prompt, new_pwd))
+		free(prompt);
+	prompt = new_pwd;
+	rpl_homedir_tild(&prompt, env);
+	ft_putstr(prompt);
+	ft_putstr(" $ ");
 }
 
 int main(int argc, char **argv, char **environ)
@@ -82,7 +118,7 @@ int main(int argc, char **argv, char **environ)
 		{
 			line = ft_strtrim_w(line);
 			spl_line = ft_strsplit(line, ' ');
-			if (line && ft_strcmp(line, ""))
+			if (line && ft_strcmp(line, "") != 0)
 				handle_command(spl_line, &env_cp);
 			free(line);
 		}
