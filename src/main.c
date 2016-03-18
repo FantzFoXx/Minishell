@@ -4,62 +4,6 @@
 #include "minishell.h"
 #include <sys/param.h>
 
-char	**ft_strdup_tab(char **tab)
-{
-	char	**new;
-	int		size_tab;
-	int		i;
-
-	size_tab = 0;
-	if (tab)
-		while (tab[size_tab] != 0)
-			size_tab++;
-	new = (char **)malloc(sizeof(char *) * (size_tab + 1));
-	new[size_tab] = NULL;
-	i = -1;
-	if (tab)
-		while (++i < size_tab)
-			new[i] = ft_strdup(tab[i]);
-	return (new);
-}
-
-/*void	aff_prompt(char **env)
-  {
-  char **wd;
-  char **homedir;
-  char *tmp;
-  int pwd_index;
-  int home_index;
-
-  pwd_index = get_var_index(env, "PWD=");
-  home_index = get_var_index(env, "HOME=");
-  wd = NULL;
-  tmp = NULL;
-  homedir = NULL;
-  if (pwd_index >= 0)
-  wd = parse_var_env(env[pwd_index]);
-  if (wd)
-  {
-  if (home_index >= 0)
-  homedir = parse_var_env(env[home_index]);
-  if (homedir)
-  if (ft_strstr(wd[0], homedir[0]))
-  {
-  ft_putstr("~");
-  tmp = ft_strsub(wd[0], ft_strlen(homedir[0]), ft_strlen(wd[0]) - ft_strlen(homedir[0]));
-  ft_putstr(&wd[0][ft_strlen(homedir[0])]);
-  }
-  else
-  ft_putstr(wd[0]);
-  else
-  ft_putstr(wd[0]);
-  ft_putstr(" $ ");
-  }
-  else
-  ft_putstr("$> ");
-  }
-  */
-
 void	rpl_homedir_tild(char **str, char **env)
 {
 	int			home_ind;
