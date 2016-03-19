@@ -83,7 +83,6 @@ static int	exec_command(char *cmd, char **av, char **env)
 
 static int	initiate_command(char **bin_paths, char **command, char **env)
 {
-	//struct stat	useless;
 	char		*complete_cmd;
 	int			i;
 
@@ -93,7 +92,12 @@ static int	initiate_command(char **bin_paths, char **command, char **env)
 		{
 			complete_cmd = ft_join_paths(bin_paths[i], command[0]);
 			if (access(complete_cmd, F_OK) == 0)
-				return (exec_command(complete_cmd, command, env));
+			{
+				 if (access(complete_cmd, X_OK) == 0)
+					return (exec_command(complete_cmd, command, env));
+				 else
+					 return (catch_error(3, command[0]));
+			}
 			i++;
 			free(complete_cmd);
 		}
@@ -142,6 +146,8 @@ int			handle_command(char **command, char ***environ)
 				if (initiate_command(bin_paths, command, *environ) == -1)
 					catch_error(1, command[0]);
 			}
+			else
+				catch_error(1, command[0]);
 		}
 	}
 	return (0);

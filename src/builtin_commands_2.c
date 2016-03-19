@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:36:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/18 18:00:32 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/19 13:33:38 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,19 @@ int		builtin_unsetenv(char **command, char ***env)
 int		ft_unsetenv(char *name, char ***env)
 {
 	int		i;
+	size_t	cur_var_len;
+	char	*tmp;
 
 	i = 0;
+	cur_var_len = 0;
+	if (!ft_strchr(name, '='))
+		tmp = ft_strjoin(name, "=");
 	while ((*env)[i])
 	{
-		if (ft_strnstr((*env)[i], name, ft_strlen(name)))
+		while ((*env)[i][cur_var_len] != ('\0' ^ '='))
+				cur_var_len++;
+		cur_var_len += 1;
+		if (ft_strncmp((*env)[i], tmp, cur_var_len) == 0)
 		{
 			free((*env)[i]);
 			while ((*env)[i + 1])
@@ -95,8 +103,10 @@ int		ft_unsetenv(char *name, char ***env)
 			(*env)[i] = 0;
 			i = -1;
 		}
+		cur_var_len = 0;
 		i++;
 	}
+	free(tmp);
 	return (1);
 }
 
