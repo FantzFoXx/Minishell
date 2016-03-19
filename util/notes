@@ -50,4 +50,12 @@ err a gerer algo principal :
 - toutes les erreurs liees aux builtins
 - (???)
 
+erreurs builtins :
+
+CD :
+- No such file or directory
+- Not a directory
+- Permission denied
+- 
+
 ####################################

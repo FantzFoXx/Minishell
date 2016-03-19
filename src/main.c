@@ -32,11 +32,14 @@ void	aff_prompt(char **env)
 
 	new_pwd = NULL;
 	new_pwd = getcwd(new_pwd, MAXPATHLEN);
-	if (prompt && ft_strcmp(prompt, new_pwd))
-		free(prompt);
-	prompt = new_pwd;
-	rpl_homedir_tild(&prompt, env);
-	ft_putstr(prompt);
+	if (new_pwd)
+	{
+		if (prompt && ft_strcmp(prompt, new_pwd))
+			free(prompt);
+		prompt = new_pwd;
+		rpl_homedir_tild(&prompt, env);
+		ft_putstr(prompt);
+	}
 	ft_putstr(" $ ");
 }
 
