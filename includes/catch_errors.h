@@ -14,5 +14,7 @@
 # define CATCH_ERRORS_H
 
 int				catch_error(int err_code, char *err_msg);
+int				catch_setenv_error(int err_code);
+int				catch_cd_error(int err_code);
 
 #endif

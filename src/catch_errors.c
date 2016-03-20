@@ -15,11 +15,8 @@
 
 int				catch_error(int err_code, char *err_msg)
 {
-	DIR *dir_chk;
-
 	ft_putstr("minishell: ");
 	ft_putstr(err_msg);
-	dir_chk = NULL;
 	if (err_code == 1)
 		ft_putendl(": command not found");
 	else if (err_code == 2)
@@ -31,4 +28,19 @@ int				catch_error(int err_code, char *err_msg)
 	if (err_code == 5)
 		ft_putendl(": Not a directory");
 	return (err_code);
+}
+
+int			catch_setenv_error(int err_code)
+{
+	ft_putstr("setenv: ");
+	if (err_code == 1)
+		ft_putendl(": Too many arguments");
+	else if (err_code == 2)
+		ft_putendl(": Variable name must contain alphanumeric characters.");
+	return (err_code);
+}
+
+int			catch_cd_error(int err_code)
+{
+	
 }

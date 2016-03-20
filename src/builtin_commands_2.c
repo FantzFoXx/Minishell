@@ -17,17 +17,25 @@
 
 int		chk_setenv(char **params)
 {
-	int i;
+	int		i;
+	int		j;
 
-	i = 0;
+	i = 1;
+	j = 0;
 	while (params[i])
+	{
+		while (params[i][j])
+		{
+			if (!ft_isalnum(params[i][j]))
+				return (catch_setenv_error(2));
+			j++;
+		}
+		j = 0;
 		i++;
-	if (i == 2)
-		return (2);
-	else if (i == 3)
-		return (3);
-	else
-		return (0);
+	}
+	if (i > 3)
+		return (catch_setenv_error(1));
+	return (0);
 }
 
 int		chk_unsetenv(char **params)
@@ -46,16 +54,15 @@ int		chk_unsetenv(char **params)
 int		builtin_setenv(char **command, int overwrite, char ***env)
 {
 	(void)overwrite;
-	int		nb_params;
-	if ((nb_params = chk_setenv(command)) && nb_params)
+	if (!chk_setenv(command))
 	{
-		if (nb_params == 2)
-			return (ft_setenv(command[1], "", 0, env));
-		else if (nb_params == 3)
-			return (ft_setenv(command[1], command[2], 0, env));
+		if (!command[1])
+			return (builtin_env(command[0], *env));
+		else if (!command[2])
+			ft_setenv(command[1], "", 0, env);
+		else
+			ft_setenv(command[1], command[2], 0, env);
 	}
-	else
-		catch_error(1, "setenv");
 	return (1);
 }
 
@@ -87,6 +94,8 @@ int		ft_unsetenv(char *name, char ***env)
 	cur_var_len = 0;
 	if (!ft_strchr(name, '='))
 		tmp = ft_strjoin(name, "=");
+	else
+		tmp = ft_strdup(name);
 	while ((*env)[i])
 	{
 		while ((*env)[i][cur_var_len] != ('\0' ^ '='))
@@ -120,6 +129,7 @@ int		ft_setenv(char *name, const char *value, int overwrite, char ***env)
 	new_var = NULL;
 	index = 0;
 	env_ptr = *env;
+	
 	if (name && name[0] != '\0')
 	{
 		index = get_var_index(env_ptr, name);

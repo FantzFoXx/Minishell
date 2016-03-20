@@ -6,7 +6,6 @@ NOTES :
 TODO :
 - gerer les signaux
 - reafficher le shell apres un SIGINT
-- modifier unsetenv pour qu'il prenne les variables sans le =
 
 ##### ALGO PRINCIPAL MINISHELL #####
 
