@@ -7,47 +7,6 @@
 #include <stdio.h>
 #include <dirent.h>
 
-int		check_param_env(char **params, char **program)
-{
-	int i;
-
-	i = 0;
-	while (params[++i] && !program)
-		if (!ft_strchr(params[i], '='))
-			*program = params[i];
-	return (i);
-}
-
-int		builtin_env(char **params, char **environ)
-{
-	int		i;
-	int		check_ret;
-	char	*program;
-	char	**env_cp;
-	char	*cmd;
-	char	**cmd_spl;
-
-	i = 0;
-	program = NULL;
-	check_ret = check_param_env(params, &program);
-	env_cp = ft_strdup_tab(environ);
-	cmd_spl = (char **)malloc(sizeof(char *) * 2);
-	env_spl[0] = ft_strdup("setenv")
-	while (check_ret >= 0)
-	{
-		builtin_setenv(cmd_spl, 0, &env_cp);
-		check_ret--;
-		free(cmd);
-	}
-	if (!program)
-		while (env_cp[i])
-		{
-				ft_putendl(env_cp[i]);
-			i++;
-		}
-	return (1);
-}
-
 int		check_params_cd(char **params)
 {
 	struct stat prop;

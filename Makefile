@@ -15,7 +15,7 @@ FLAGS = -Wall -Werror -Wextra
 NAME = minishell
 SRC = main.c catch_errors.c	handle_command.c	\
 	  builtin_commands.c handle_signal.c		\
-	  builtin_commands_2.c
+	  builtin_commands_2.c builtin_env.c
 
 OBJ = $(SRC:.c=.o)
 
