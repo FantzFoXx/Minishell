@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:36:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/19 14:21:33 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/21 18:46:48 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,17 @@ int		chk_setenv(char **params)
 	{
 		while (params[i][j])
 		{
+			if (!ft_isalnum(params[i][j++]))
+				return (catch_setenv_error(6));
 			if (!ft_isalnum(params[i][j]))
-				return (catch_setenv_error(2));
+				return (catch_setenv_error(7));
 			j++;
 		}
 		j = 0;
 		i++;
 	}
 	if (i > 3)
-		return (catch_setenv_error(1));
+		return (catch_setenv_error(6));
 	return (0);
 }
 
@@ -57,7 +59,7 @@ int		builtin_setenv(char **command, int overwrite, char ***env)
 	if (!chk_setenv(command))
 	{
 		if (!command[1])
-			return (builtin_env(command[0], *env));
+			return (builtin_env(command, *env));
 		else if (!command[2])
 			ft_setenv(command[1], "", 0, env);
 		else

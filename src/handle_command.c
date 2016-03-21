@@ -69,8 +69,8 @@ static int	exec_command(char *cmd, char **av, char **env)
 	if (child > 0)
 	{
 		waitpid(child, &status, 0);
-		if (WTERMSIG(status))
-			handle_fork_signal(WTERMSIG(status));
+		//if (WTERMSIG(status))
+		//	handle_fork_signal(WTERMSIG(status));
 	}
 	if (child == 0)
 	{

@@ -7,18 +7,44 @@
 #include <stdio.h>
 #include <dirent.h>
 
-
-int		builtin_env(char *params, char **environ)
+int		check_param_env(char **params, char **program)
 {
-	(void)params;
-	int		i;
+	int i;
 
 	i = 0;
-	while (environ[i])
+	while (params[++i] && !program)
+		if (!ft_strchr(params[i], '='))
+			*program = params[i];
+	return (i);
+}
+
+int		builtin_env(char **params, char **environ)
+{
+	int		i;
+	int		check_ret;
+	char	*program;
+	char	**env_cp;
+	char	*cmd;
+	char	**cmd_spl;
+
+	i = 0;
+	program = NULL;
+	check_ret = check_param_env(params, &program);
+	env_cp = ft_strdup_tab(environ);
+	cmd_spl = (char **)malloc(sizeof(char *) * 2);
+	env_spl[0] = ft_strdup("setenv")
+	while (check_ret >= 0)
 	{
-		ft_putendl(environ[i]);
-		i++;
+		builtin_setenv(cmd_spl, 0, &env_cp);
+		check_ret--;
+		free(cmd);
 	}
+	if (!program)
+		while (env_cp[i])
+		{
+				ft_putendl(env_cp[i]);
+			i++;
+		}
 	return (1);
 }
 
@@ -33,12 +59,12 @@ int		check_params_cd(char **params)
 		if ((stat_ret = lstat(params[1], &prop)) == 0)
 		{
 			if (!S_ISDIR(prop.st_mode))
-				return (catch_error(5, params[1]));
+				return (catch_cd_error(8, params[1]));
 			else if (access(params[1], X_OK) == -1)
-				return (catch_error(3, params[1]));
+				return (catch_cd_error(9, params[1]));
 		}
 		else
-			return (catch_error(4, params[1]));
+			return (catch_cd_error(10, params[1]));
 	}
 	return (0);
 }
@@ -81,7 +107,7 @@ int		builtins_call(char **command, char ***environ)
 	else if (ft_strcmp(command[0], "exit") == 0)
 		builtin_exit();
 	else if (ft_strcmp(command[0], "env") == 0)
-		return (builtin_env(NULL, *environ));
+		return (builtin_env(command, *environ));
 	else if (ft_strcmp(command[0], "setenv") == 0)
 		return (builtin_setenv(command, 0, environ));
 	else if (ft_strcmp(command[0], "unsetenv") == 0)

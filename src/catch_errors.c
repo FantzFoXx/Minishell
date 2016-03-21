@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:57:21 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/19 16:37:48 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/21 10:50:39 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,32 @@ int				catch_error(int err_code, char *err_msg)
 		ft_putendl(": Permission denied");
 	else if (err_code == 4)
 		ft_putendl(": No such file or directory");
-	if (err_code == 5)
+	else if (err_code == 5)
 		ft_putendl(": Not a directory");
 	return (err_code);
 }
 
 int			catch_setenv_error(int err_code)
 {
-	ft_putstr("setenv: ");
-	if (err_code == 1)
+	ft_putstr("minishell: ");
+	ft_putstr("setenv");
+	if (err_code == 6)
 		ft_putendl(": Too many arguments");
-	else if (err_code == 2)
+	else if (err_code == 7)
 		ft_putendl(": Variable name must contain alphanumeric characters.");
 	return (err_code);
 }
 
-int			catch_cd_error(int err_code)
+int			catch_cd_error(int err_code, char *err_msg)
 {
-	
+	ft_putstr("minishell: ");
+	ft_putstr("cd: ");
+	ft_putstr(err_msg);
+	if (err_code == 8)
+		ft_putendl(": Not a directory");
+	else if (err_code == 9)
+		ft_putendl(": Permission denied");
+	else if (err_code == 10)
+		ft_putendl(": No such file or directory");
+	return (err_code);
 }

@@ -55,16 +55,17 @@ int main(int argc, char **argv, char **environ)
 	env_cp = ft_strdup_tab(environ);
 	gnl_ret = 0;
 	line = NULL;
-	init_sign(env_cp);
+	//init_sign(env_cp);
+	aff_prompt(env_cp);
 	while (1)
 	{
-		aff_prompt(env_cp);
-		while (gnl_ret == 0)
-			gnl_ret = get_next_line(1, &line);
+		gnl_ret = get_next_line(1, &line);
 		if (gnl_ret < 0)
 			catch_error(1, "gnl");
 		else
 		{
+			if (!line)
+				ft_putendl(line = ft_strdup("exit"));
 			line = ft_strtrim_w(line);
 			spl_line = ft_strsplit(line, ' ');
 			if (line && ft_strcmp(line, "") != 0)
@@ -72,6 +73,7 @@ int main(int argc, char **argv, char **environ)
 			free(line);
 		}
 		gnl_ret = 0;
+		aff_prompt(env_cp);
 	}
 	return (0);
 }
