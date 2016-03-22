@@ -37,6 +37,8 @@ int		builtin_cd(char **params, char ***environ)
 
 	chdir_ret = 0;
 	tmp = ft_getenv(*environ, "HOME=");
+	if (check_params_cd(params))
+		return (1);
 	if (tmp)
 		tmp = ft_strdup(tmp);
 	if (((params[1] && ft_strcmp(params[1], "~") == 0) || !params[1]) && tmp)
@@ -46,8 +48,6 @@ int		builtin_cd(char **params, char ***environ)
 	}
 	else
 		chdir_ret = chdir(params[1]);
-	if (chdir_ret == -1)
-		return (check_params_cd(params));
 	getcwd(new_dir, 1024);
 	ft_setenv("PWD", new_dir, 0, environ);
 	return (1);

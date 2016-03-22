@@ -3,10 +3,6 @@ NOTES :
 - si PWD n'est pas set, le prompt avec pwd s'affiche quand meme
 	DONC le prompt s'affiche grace a la fonction getcwd
 
-TODO :
-- gerer les signaux
-- reafficher le shell apres un SIGINT
-
 ##### ALGO PRINCIPAL MINISHELL #####
 
 loop principal 

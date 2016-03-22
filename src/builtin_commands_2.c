@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:36:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/21 18:46:48 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/22 13:17:27 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,19 @@ int		chk_setenv(char **params)
 
 	i = 1;
 	j = 0;
+	if (ft_tab_size(params) > 3)
+		return (catch_setenv_error(6));
 	while (params[i])
 	{
 		while (params[i][j])
 		{
-			if (!ft_isalnum(params[i][j++]))
-				return (catch_setenv_error(6));
-			if (!ft_isalnum(params[i][j]))
+			if (i == 1 && !ft_isalnum(params[i][j]) && params[i][j] != '_')
 				return (catch_setenv_error(7));
 			j++;
 		}
 		j = 0;
 		i++;
 	}
-	if (i > 3)
-		return (catch_setenv_error(6));
 	return (0);
 }
 
@@ -101,7 +99,7 @@ int		ft_unsetenv(char *name, char ***env)
 	while ((*env)[i])
 	{
 		while ((*env)[i][cur_var_len] != ('\0' ^ '='))
-				cur_var_len++;
+			cur_var_len++;
 		cur_var_len += 1;
 		if (ft_strncmp((*env)[i], tmp, cur_var_len) == 0)
 		{
@@ -131,7 +129,6 @@ int		ft_setenv(char *name, const char *value, int overwrite, char ***env)
 	new_var = NULL;
 	index = 0;
 	env_ptr = *env;
-	
 	if (name && name[0] != '\0')
 	{
 		index = get_var_index(env_ptr, name);

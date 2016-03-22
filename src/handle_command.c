@@ -145,32 +145,3 @@ int			handle_command(char **command, char ***environ)
 	}
 	return (0);
 }
-
-/*
-   int			handle_command(char **command, char ***environ)
-   {
-   char		**bin_paths;
-   struct stat	file_prop;
-   int				var_index;
-
-   var_index = 0;
-   bin_paths = NULL;
-//ft_trace("command", command[0]);
-if (stat(command[0], &file_prop) == -1)
-{
-if (!builtins_call(command, environ))
-{
-var_index = get_var_index(*environ, "PATH=");
-if (var_index != -1)
-{
-bin_paths = parse_var_env((*environ)[var_index]);
-if (initiate_command(bin_paths, command, *environ) == -1)
-catch_error(2, command[0]);
-}
-}
-}
-else
-initiate_command(NULL, command, *environ);
-return (0);
-}
-*/

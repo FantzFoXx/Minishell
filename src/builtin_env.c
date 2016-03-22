@@ -9,9 +9,6 @@
 
 int		env_is_var(char *param)
 {
-	if (!ft_isalnum(param[0]))
-		//return (env_catch_error(11, param));
-		return (11);
 	if (ft_strchr(param, '='))
 		return (1);
 	return (0);
@@ -22,7 +19,6 @@ int		set_new_env(char *param, char ***env_cp)
 	char	*name;
 	char	*value;
 	int		spl;
-	(void)env_cp;
 
 	spl = 0;
 	while (param[spl] != (0 ^ '='))
@@ -52,18 +48,19 @@ int		builtin_env(char **params, char **environ)
 	int		newvar_count;
 	char	**env_cp;
 
-	env_cp = ft_strdup_tab(environ);
 	i = 1;
-	if (!params[i])
-	{
-	while ((ret_chk = env_is_var(params[i])) == 1)
-		i++;
-	if (ret_chk == 11)
-		return (1);
 	newvar_count = 0;
-	while (++newvar_count <= i)
-		set_new_env(params[newvar_count], &env_cp);
+	env_cp = ft_strdup_tab(environ);
+	if (params[i])
+	{
+		while (params[i] && (ret_chk = env_is_var(params[i])) == 1)
+			i++;
+		while (++newvar_count < i)
+			set_new_env(params[newvar_count], &env_cp);
 	}
+	if (!params[1] || !params[newvar_count])
 		print_environ(env_cp);
+	else
+		handle_command(&params[newvar_count], &env_cp);
 	return (1);
 }
