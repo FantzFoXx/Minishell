@@ -25,15 +25,27 @@ OBJDIR = obj/
 INCDIR = includes/
 LIBDIR = libft/
 
+SRCS = $(addprefix $(SRCDIR),$(SRC))
+OBJS = $(addprefix $(OBJDIR),$(OBJ))
+
+
 all: $(NAME)
 
-$(NAME):
-	(cd $(LIBDIR); $(MAKE) all)
-	(cd $(SRCDIR);$(CC) $(FLAGS) -c $(SRC) -I ../$(INCDIR) -I ../$(LIBDIR)includes/;mv $(OBJ) ../obj)
-	(cd $(OBJDIR);$(CC) $(FLAGS) -o ../$(NAME) $(OBJ) -L ../$(LIBDIR) -lft)
+$(NAME): $(OBJS)
+	    $(CC) -L $(LIBDIR) -lft $^ -o $@
+
+$(OBJDIR)%.o: $(SRCDIR)%.c
+	    @mkdir $(OBJDIR) 2> /dev/null || true
+		    $(CC) $(FLAGS) -I $(INCDIR) -I $(LIBDIR)includes -o $@ -c $<
+
+#$(NAME):
+#	(cd $(LIBDIR); $(MAKE) all)
+#	(cd $(SRCDIR);$(CC) $(FLAGS) -c $(SRC) -I ../$(INCDIR) -I ../$(LIBDIR)includes/;mv $(OBJ) ../obj)
+#	(cd $(OBJDIR);$(CC) $(FLAGS) -o ../$(NAME) $(OBJ) -L ../$(LIBDIR) -lft)
 
 clean:
-	(cd $(OBJDIR); rm -rf $(OBJ))
+	rm -rf $(OBJS)
+	@rmdir $(OBJDIR) 2> /dev/null || true
 
 fclean: clean
 	rm -rf $(NAME)
