@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_command.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/03/22 15:58:14 by udelorme          #+#    #+#             */
+/*   Updated: 2016/03/22 16:06:59 by udelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <sys/stat.h>
 #include "minishell.h"
@@ -59,7 +71,7 @@ char	*ft_join_paths(char *path, char *filename)
 	return (ret);
 }
 
-static int	exec_command(char *cmd, char **av, char **env)
+int	exec_command(char *cmd, char **av, char **env)
 {
 	pid_t child;
 	int status;
@@ -80,7 +92,7 @@ static int	exec_command(char *cmd, char **av, char **env)
 	return (1);
 }
 
-static int	initiate_command(char **bin_paths, char **command, char **env)
+int	initiate_command(char **bin_paths, char **command, char **env)
 {
 	char		*complete_cmd;
 	int			i;

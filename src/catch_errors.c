@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:57:21 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/22 14:25:51 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/22 18:09:52 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,16 @@ int			catch_cd_error(int err_code, char *err_msg)
 		ft_putendl(": Permission denied");
 	else if (err_code == 10)
 		ft_putendl(": No such file or directory");
+	return (err_code);
+}
+
+int			catch_env_error(int	err_code, char *err_msg)
+{
+	ft_putstr("env: ");
+	ft_putstr(err_msg);
+	if (err_code == 1)
+		ft_putendl(": No such file or directory");
+	if (err_code == 2)
+		ft_putendl(": Permission denied");
 	return (err_code);
 }

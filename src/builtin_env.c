@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/03/22 15:57:58 by udelorme          #+#    #+#             */
+/*   Updated: 2016/03/22 18:09:54 by udelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "builtin_commands.h"
 #include <unistd.h>
@@ -61,6 +73,6 @@ int		builtin_env(char **params, char **environ)
 	if (!params[1] || !params[newvar_count])
 		print_environ(env_cp);
 	else
-		handle_command(&params[newvar_count], &env_cp);
+		handle_env_command(&params[newvar_count], env_cp, &environ);
 	return (1);
 }

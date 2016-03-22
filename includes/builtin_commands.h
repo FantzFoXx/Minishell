@@ -7,5 +7,6 @@ int		builtin_setenv(char **command, int overwrite, char ***env);
 int		builtin_unsetenv(char **command, char ***env);
 int		ft_unsetenv(char *name, char ***env);
 int		builtin_env(char **params, char **environ);
+int		handle_env_command(char **command, char **env_cp, char ***environ);
 
 #endif

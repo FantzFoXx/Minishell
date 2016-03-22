@@ -48,7 +48,7 @@ int		builtin_cd(char **params, char ***environ)
 	}
 	else
 		chdir_ret = chdir(params[1]);
-	getcwd(new_dir, 1024);
+	//getcwd(new_dir, 1024);
 	ft_setenv("PWD", new_dir, 0, environ);
 	return (1);
 }

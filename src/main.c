@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/03/22 15:58:23 by udelorme          #+#    #+#             */
+/*   Updated: 2016/03/22 18:09:53 by udelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "handle_signal.h"
 #include "catch_errors.h"
@@ -32,7 +44,7 @@ void	aff_prompt(char **env)
 
 	new_pwd = NULL;
 	new_pwd = getcwd(new_pwd, MAXPATHLEN);
-	if (new_pwd)
+	if (new_pwd || prompt)
 	{
 		if (prompt && ft_strcmp(prompt, new_pwd))
 			free(prompt);
@@ -59,9 +71,12 @@ int main(int argc, char **argv, char **environ)
 	aff_prompt(env_cp);
 	while (1)
 	{
-		gnl_ret = get_next_line(1, &line);
+		gnl_ret = get_next_line(0, &line);
 		if (gnl_ret < 0)
-			catch_error(1, "gnl");
+		{
+			catch_error(0, "gnl failure");
+			exit(1);
+		}
 		else
 		{
 			if (!line)
