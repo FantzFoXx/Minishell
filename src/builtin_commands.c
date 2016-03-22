@@ -31,24 +31,23 @@ int		check_params_cd(char **params)
 int		builtin_cd(char **params, char ***environ)
 {
 	int		chdir_ret;
-	char	*tmp;
-	char **homedir;
+	//char	*tmp;
+	//char **homedir;
 	char new_dir[1024];
 
 	chdir_ret = 0;
-	tmp = ft_getenv(*environ, "HOME=");
-	if (check_params_cd(params))
-		return (1);
-	if (tmp)
-		tmp = ft_strdup(tmp);
-	if (((params[1] && ft_strcmp(params[1], "~") == 0) || !params[1]) && tmp)
-	{
-		homedir = parse_var_env(tmp);
-		chdir_ret = chdir(homedir[0]);
-	}
-	else
-		chdir_ret = chdir(params[1]);
-	//getcwd(new_dir, 1024);
+	//tmp = ft_getenv(*environ, "HOME=");
+	//if (tmp)
+	//	tmp = ft_strdup(tmp);
+	//if (((params[1] && ft_strcmp(params[1], "~") == 0) || !params[1]) && tmp)
+	//{
+	//	homedir = parse_var_env(tmp);
+	//	chdir_ret = chdir(homedir[0]);
+	//}
+	//else
+	if ((chdir_ret = chdir(params[1])) == -1)
+		return (check_params_cd(params));
+	getcwd(new_dir, 1024);
 	ft_setenv("PWD", new_dir, 0, environ);
 	return (1);
 }

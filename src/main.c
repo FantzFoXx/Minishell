@@ -16,6 +16,7 @@
 #include "minishell.h"
 #include <sys/param.h>
 
+/*
 void	rpl_homedir_tild(char **str, char **env)
 {
 	int			home_ind;
@@ -35,6 +36,7 @@ void	rpl_homedir_tild(char **str, char **env)
 		free(tmp);
 	}
 }
+*/
 
 void	aff_prompt(char **env)
 {
@@ -44,14 +46,15 @@ void	aff_prompt(char **env)
 
 	new_pwd = NULL;
 	new_pwd = getcwd(new_pwd, MAXPATHLEN);
-	if (new_pwd || prompt)
+	if (new_pwd)
 	{
 		if (prompt && ft_strcmp(prompt, new_pwd))
 			free(prompt);
 		prompt = new_pwd;
-		rpl_homedir_tild(&prompt, env);
-		ft_putstr(prompt);
+		//rpl_homedir_tild(&prompt, env);
 	}
+	if (prompt)
+		ft_putstr(prompt);
 	ft_putstr(" $ ");
 }
 
