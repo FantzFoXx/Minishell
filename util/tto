@@ -2,4 +2,3 @@ penser a afifcher les messages d'erreurs quand il n y a pas de var env
 modifier cd pour prendre les paths composes avec droits d'acces
 garder le prompt dans une variable statique
 liens avec cd
-

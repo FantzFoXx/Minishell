@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 15:58:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/22 16:06:59 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/22 19:07:01 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int			check_is_dirfile(char **path, char **env)
 	struct stat	file_prop;
 
 	if (ft_strchr(path[0], '/'))
+	{
 		if (stat(path[0], &file_prop) == 0)
 		{
 			if (S_ISDIR(file_prop.st_mode))
@@ -136,6 +137,9 @@ int			check_is_dirfile(char **path, char **env)
 			else
 				return (initiate_command(NULL, path, env));
 		}
+		else
+			return (catch_error(4, path[0]));
+	}
 	return (0);
 }
 
@@ -148,12 +152,13 @@ int			handle_command(char **command, char ***environ)
 	{
 		path_index = get_var_index(*environ, "PATH=");
 		if (path_index >= 0)
-		{
 			bin_paths = parse_var_env((*environ)[path_index]);
+		else
+			bin_paths = parse_var_env(
+					ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"));
 			if (initiate_command(bin_paths, command, *environ) == -1)
 				if (!check_is_dirfile(command, *environ))
 					catch_error(1, command[0]);
-		}
 	}
 	return (0);
 }
