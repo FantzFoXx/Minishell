@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 15:57:58 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/22 18:09:54 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/23 16:50:10 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		set_new_env(char *param, char ***env_cp)
 		spl++;
 	name = ft_strsub(param, 0, spl++);
 	value = ft_strsub(param, spl, ft_strlen(param) - spl);
-	ft_setenv(name, value, 0, env_cp);
+	ft_setenv(name, value, env_cp);
 	return (0);
 }
 
@@ -74,5 +74,6 @@ int		builtin_env(char **params, char **environ)
 		print_environ(env_cp);
 	else
 		handle_env_command(&params[newvar_count], env_cp, &environ);
+	ft_freetab(env_cp);
 	return (1);
 }

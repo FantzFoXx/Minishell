@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 15:58:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/22 19:07:01 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/23 17:33:06 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,73 +17,18 @@
 #include "catch_errors.h"
 #include <unistd.h>
 #include <sys/wait.h>
-#include <signal.h>
-#include "handle_signal.h"
 
 #include <stdio.h>
 
-char	**parse_var_env(char *var)
+int		exec_command(char *cmd, char **av, char **env)
 {
-	int		i;
-	char	**ret;
-	char	*tmp;
-
-	i = 0;
-	while (var[i] != '=')
-		i++;
-	tmp = ft_strsub(var, i + 1, ft_strlen(var) - i);
-	ret = ft_strsplit(tmp, ':');
-	free(tmp);
-	return (ret);
-}
-
-int	get_var_index(char **var, char *chr)
-{
-	int	i;
-
-	i = -1;
-	while (var[++i])
-		if (ft_strnstr(var[i], chr, ft_strlen(chr)))
-			return (i);
-	return (-1);
-}
-
-char	*ft_getenv(char **var, char *chr)
-{
-	int index;
-	char *ret;
-
-	index = get_var_index(var, chr);
-	ret = NULL;
-	if (index != -1)
-		ret = var[index];
-	return (ret);
-}
-
-char	*ft_join_paths(char *path, char *filename)
-{
-	char *tmp;
-	char *ret;
-
-	tmp = ft_strjoin(path, "/");
-	ret = ft_strjoin(tmp, filename);
-	free(tmp);
-	return (ret);
-}
-
-int	exec_command(char *cmd, char **av, char **env)
-{
-	pid_t child;
-	int status;
+	pid_t	child;
+	int		status;
 
 	child = fork();
 	status = 0;
 	if (child > 0)
-	{
 		waitpid(child, &status, 0);
-		//if (WTERMSIG(status))
-		//	handle_fork_signal(WTERMSIG(status));
-	}
 	if (child == 0)
 	{
 		execve(cmd, &av[0], env);
@@ -92,7 +37,7 @@ int	exec_command(char *cmd, char **av, char **env)
 	return (1);
 }
 
-int	initiate_command(char **bin_paths, char **command, char **env)
+int		initiate_command(char **bin_paths, char **command, char **env)
 {
 	char		*complete_cmd;
 	int			i;
@@ -117,12 +62,12 @@ int	initiate_command(char **bin_paths, char **command, char **env)
 	return (-1);
 }
 
-int			file_x_access(char *path)
+int		file_x_access(char *path)
 {
 	return (access(path, X_OK) == 0) ? 1 : 0;
 }
 
-int			check_is_dirfile(char **path, char **env)
+int		check_is_dirfile(char **path, char **env)
 {
 	struct stat	file_prop;
 
@@ -143,7 +88,7 @@ int			check_is_dirfile(char **path, char **env)
 	return (0);
 }
 
-int			handle_command(char **command, char ***environ)
+int		handle_command(char **command, char ***environ)
 {
 	char	**bin_paths;
 	int		path_index;
@@ -155,10 +100,11 @@ int			handle_command(char **command, char ***environ)
 			bin_paths = parse_var_env((*environ)[path_index]);
 		else
 			bin_paths = parse_var_env(
-					ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"));
+				"PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+		if (!check_is_dirfile(command, *environ))
 			if (initiate_command(bin_paths, command, *environ) == -1)
-				if (!check_is_dirfile(command, *environ))
-					catch_error(1, command[0]);
+				catch_error(1, command[0]);
+		ft_freetab(bin_paths);
 	}
 	return (0);
 }

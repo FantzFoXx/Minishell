@@ -6,14 +6,14 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:57:21 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/23 12:02:52 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/23 14:48:45 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <dirent.h>
 
-int				catch_error(int err_code, char *err_msg)
+int			catch_error(int err_code, char *err_msg)
 {
 	ft_putstr("minishell: ");
 	ft_putstr(err_msg);
@@ -61,7 +61,7 @@ int			catch_cd_error(int err_code, char *err_msg)
 	return (err_code);
 }
 
-int			catch_env_error(int	err_code, char *err_msg)
+int			catch_env_error(int err_code, char *err_msg)
 {
 	ft_putstr("env: ");
 	ft_putstr(err_msg);

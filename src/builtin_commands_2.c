@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 13:36:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/22 13:17:27 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/23 17:33:07 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,73 +15,26 @@
 #include "libft.h"
 #include "catch_errors.h"
 
-int		chk_setenv(char **params)
+char	*comp_var_name(char *name)
 {
-	int		i;
-	int		j;
+	char	*tmp;
 
-	i = 1;
-	j = 0;
-	if (ft_tab_size(params) > 3)
-		return (catch_setenv_error(6));
-	while (params[i])
-	{
-		while (params[i][j])
-		{
-			if (i == 1 && !ft_isalnum(params[i][j]) && params[i][j] != '_')
-				return (catch_setenv_error(7));
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return (0);
-}
-
-int		chk_unsetenv(char **params)
-{
-	int i;
-
-	i = 1;
-	while (params[i])
-		i++;
-	if (i >= 2)
-		return (i - 1);
+	if (!ft_strchr(name, '='))
+		tmp = ft_strjoin(name, "=");
 	else
-		return (0);
+		tmp = ft_strdup(name);
+	return (tmp);
 }
 
-int		builtin_setenv(char **command, int overwrite, char ***env)
+size_t	count_cur_var_len(char **env, int i)
 {
-	(void)overwrite;
-	if (!chk_setenv(command))
-	{
-		if (!command[1])
-			return (builtin_env(command, *env));
-		else if (!command[2])
-			ft_setenv(command[1], "", 0, env);
-		else
-			ft_setenv(command[1], command[2], 0, env);
-	}
-	return (1);
-}
+	size_t	cur_var_len;
 
-int		builtin_unsetenv(char **command, char ***env)
-{
-	int		nb_params;
-
-	if ((nb_params = chk_unsetenv(command)) && nb_params)
-	{
-		while (nb_params > 0)
-		{
-			ft_unsetenv(command[nb_params], env);
-			nb_params--;
-		}
-		return (1);
-	}
-	else
-		catch_error(1, "unsetenv");
-	return (1);
+	cur_var_len = 0;
+	while (env[i][cur_var_len] != ('\0' ^ '='))
+		cur_var_len++;
+	cur_var_len += 1;
+	return (cur_var_len);
 }
 
 int		ft_unsetenv(char *name, char ***env)
@@ -91,16 +44,10 @@ int		ft_unsetenv(char *name, char ***env)
 	char	*tmp;
 
 	i = 0;
-	cur_var_len = 0;
-	if (!ft_strchr(name, '='))
-		tmp = ft_strjoin(name, "=");
-	else
-		tmp = ft_strdup(name);
+	tmp = comp_var_name(name);
 	while ((*env)[i])
 	{
-		while ((*env)[i][cur_var_len] != ('\0' ^ '='))
-			cur_var_len++;
-		cur_var_len += 1;
+		cur_var_len = count_cur_var_len(*env, i);
 		if (ft_strncmp((*env)[i], tmp, cur_var_len) == 0)
 		{
 			free((*env)[i]);
@@ -119,44 +66,39 @@ int		ft_unsetenv(char *name, char ***env)
 	return (1);
 }
 
-int		ft_setenv(char *name, const char *value, int overwrite, char ***env)
+char	*cat_new_var(char *name, const char *value)
 {
-	int index;
 	char *new_var;
-	(void)overwrite;
-	char **env_ptr;
 
-	new_var = NULL;
-	index = 0;
+	new_var = ft_strnew((ft_strlen(name) + ft_strlen(value) + 1));
+	ft_strcat(new_var, name);
+	ft_strcat(new_var, "=");
+	ft_strcat(new_var, value);
+	return (new_var);
+}
+
+int		ft_setenv(char *name, const char *value, char ***env)
+{
+	int		index;
+	char	**env_ptr;
+
 	env_ptr = *env;
 	if (name && name[0] != '\0')
 	{
 		index = get_var_index(env_ptr, name);
 		if (index != -1)
-		{
-			if ((ft_strlen(name) + ft_strlen(value) + 2) <= ft_strlen(env_ptr[index]))
+			if ((ft_strlen(name) + ft_strlen(value) + 2)
+					<= ft_strlen(env_ptr[index]))
 				ft_strcpy(&env_ptr[index][ft_strlen(name) + 1], value);
 			else
-			{
-				new_var = ft_strnew(sizeof(char)
-						* (ft_strlen(name) + ft_strlen(value) + 1));
-				ft_strcat(new_var, name);
-				ft_strcat(new_var, "=");
-				ft_strcat(new_var, value);
-				env_ptr[index] = new_var;
-			}
-		}
+				env_ptr[index] = cat_new_var(name, value);
 		else
 		{
 			index = 0;
 			while (env_ptr[index])
 				index++;
 			ft_realloc_tab(env, 1);
-			new_var = ft_strnew(ft_strlen(name) + ft_strlen(value) + 1);
-			ft_strcat(new_var, name);
-			ft_strcat(new_var, "=");
-			ft_strcat(new_var, value);
-			(*env)[index] = new_var;
+			(*env)[index] = cat_new_var(name, value);
 			index = 0;
 		}
 	}
