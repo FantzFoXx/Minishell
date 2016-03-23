@@ -6,7 +6,7 @@
 #    By: udelorme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/14 11:43:18 by udelorme          #+#    #+#              #
-#    Updated: 2016/03/22 15:59:24 by udelorme         ###   ########.fr        #
+#    Updated: 2016/03/23 10:32:20 by udelorme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,20 +28,15 @@ LIBDIR = libft/
 SRCS = $(addprefix $(SRCDIR),$(SRC))
 OBJS = $(addprefix $(OBJDIR),$(OBJ))
 
-
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	    $(CC) -L $(LIBDIR) -lft $^ -o $@
+	make -C $(LIBDIR)
+	$(CC) -L $(LIBDIR) -lft $^ -o $@
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
-	    @mkdir $(OBJDIR) 2> /dev/null || true
-		    $(CC) $(FLAGS) -I $(INCDIR) -I $(LIBDIR)includes -o $@ -c $<
-
-#$(NAME):
-#	(cd $(LIBDIR); $(MAKE) all)
-#	(cd $(SRCDIR);$(CC) $(FLAGS) -c $(SRC) -I ../$(INCDIR) -I ../$(LIBDIR)includes/;mv $(OBJ) ../obj)
-#	(cd $(OBJDIR);$(CC) $(FLAGS) -o ../$(NAME) $(OBJ) -L ../$(LIBDIR) -lft)
+	@mkdir $(OBJDIR) 2> /dev/null || true
+	$(CC) $(FLAGS) -I $(INCDIR) -I $(LIBDIR)includes -o $@ -c $<
 
 clean:
 	rm -rf $(OBJS)
@@ -53,9 +48,9 @@ fclean: clean
 re: fclean all
 
 lftclean:
-	(cd $(LIBDIR); $(MAKE) clean)
+	$(MAKE) -C $(LIBDIR) clean
 
 lftfclean:
-	(cd $(LIBDIR); $(MAKE) fclean)
+	$(MAKE) -C $(LIBDIR) fclean
 
-.PHONY: $(NAME) all clean fclean re
+.PHONY: all clean fclean re

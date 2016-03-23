@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:57:21 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/22 18:44:56 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/23 12:02:52 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ int			catch_cd_error(int err_code, char *err_msg)
 {
 	ft_putstr("minishell: ");
 	ft_putstr("cd: ");
+	if (err_code == 11)
+	{
+		ft_putstr(err_msg);
+		ft_putendl(" not set");
+		return (err_code);
+	}
 	ft_putstr(err_msg);
 	if (err_code == 8)
 		ft_putendl(": Not a directory");

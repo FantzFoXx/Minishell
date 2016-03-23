@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 15:58:23 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/22 18:09:53 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/23 12:03:11 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int main(int argc, char **argv, char **environ)
 			catch_error(0, "gnl failure");
 			exit(1);
 		}
+		else if (gnl_ret == 0)
+			exit(0);
 		else
 		{
 			if (!line)
