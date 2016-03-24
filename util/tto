@@ -1,7 +1,5 @@
 modifier cd pour prendre les paths composes avec droits d'acces
-modifier messages erreur unsetenv
 ajouter l'option - cd
-utiliser l'env modifie pour lancer les commandes
 liens avec cd
 oldpwd
 

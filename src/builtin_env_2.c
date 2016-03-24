@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 15:58:46 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/22 18:09:55 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/24 10:09:27 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,17 @@ int			env_check_is_dirfile(char **path, char **env)
 	return (0);
 }
 
-int			handle_env_command(char **command, char **env_cp, char ***environ)
+int			handle_env_command(char **command, char **env_cp)
 {
 	char	**bin_paths;
 	int		path_index;
 
-	if (!builtins_call(command, environ))
+	if (!builtins_call(command, &env_cp))
 	{
-		path_index = get_var_index(*environ, "PATH=");
+		path_index = get_var_index(env_cp, "PATH=");
 		if (path_index >= 0)
 		{
-			bin_paths = parse_var_env((*environ)[path_index]);
+			bin_paths = parse_var_env(env_cp[path_index]);
 			if (initiate_env_command(bin_paths, command, env_cp) == -1)
 				if (!env_check_is_dirfile(command, env_cp))
 					catch_env_error(1, command[0]);

@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 16:41:28 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/23 16:53:42 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/24 10:04:46 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ int		builtin_unsetenv(char **command, char ***env)
 		return (1);
 	}
 	else
-		catch_error(1, "unsetenv");
+		catch_unsetenv_error(1);
 	return (1);
 }

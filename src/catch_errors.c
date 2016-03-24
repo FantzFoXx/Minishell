@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:57:21 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/23 14:48:45 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/24 10:05:22 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ int			catch_setenv_error(int err_code)
 		ft_putendl(": Too many arguments");
 	else if (err_code == 7)
 		ft_putendl(": Variable name must contain alphanumeric characters.");
+	return (err_code);
+}
+
+int			catch_unsetenv_error(int err_code)
+{
+	ft_putstr("minishell: ");
+	ft_putstr("unsetenv");
+	if (err_code == 1)
+		ft_putendl(": Too few arguments");
 	return (err_code);
 }
 
