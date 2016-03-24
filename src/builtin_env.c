@@ -6,18 +6,12 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 15:57:58 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/24 10:10:05 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/24 13:01:36 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin_commands.h"
-#include <unistd.h>
-#include "minishell.h"
-#include <sys/stat.h>
-#include "catch_errors.h"
-#include <stdio.h>
-#include <dirent.h>
 
 int		env_is_var(char *param)
 {

@@ -6,17 +6,13 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 17:31:15 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/23 17:31:53 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/24 13:02:38 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <sys/stat.h>
 #include "minishell.h"
-#include "builtin_commands.h"
 #include "catch_errors.h"
-#include <unistd.h>
-#include <sys/wait.h>
 
 char	**parse_var_env(char *var)
 {

@@ -6,12 +6,11 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:57:21 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/24 10:05:22 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/24 13:04:18 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <dirent.h>
 
 int			catch_error(int err_code, char *err_msg)
 {

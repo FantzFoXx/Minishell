@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 15:58:14 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/23 17:33:06 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/24 13:01:02 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 #include "minishell.h"
 #include "builtin_commands.h"
 #include "catch_errors.h"
-#include <unistd.h>
 #include <sys/wait.h>
-
-#include <stdio.h>
 
 int		exec_command(char *cmd, char **av, char **env)
 {

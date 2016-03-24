@@ -6,18 +6,15 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 14:49:22 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/24 10:10:04 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/24 13:01:00 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin_commands.h"
-#include <unistd.h>
 #include "minishell.h"
 #include <sys/stat.h>
 #include "catch_errors.h"
-#include <stdio.h>
-#include <dirent.h>
 
 int		check_params_cd(char **params)
 {
